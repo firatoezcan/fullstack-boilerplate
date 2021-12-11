@@ -1,0 +1,16 @@
+actions:
+- name: login
+  definition:
+    kind: ""
+    handler: '{{WORKER_HOST}}/api/login'
+- name: register
+  definition:
+    kind: synchronous
+    handler: '{{WORKER_HOST}}/api/register'
+custom_types:
+  enums: []
+  input_objects: []
+  objects:
+  - name: LoginResponse
+  - name: RegisterResponse
+  scalars: []

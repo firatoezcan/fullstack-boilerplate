@@ -1,0 +1,20 @@
+type Query {
+  login(
+    email: String!
+  ): LoginResponse
+}
+
+type Mutation {
+  register(
+    email: String!
+  ): RegisterResponse
+}
+
+type LoginResponse {
+  token: String!
+}
+
+type RegisterResponse {
+  id: Int!
+}
+

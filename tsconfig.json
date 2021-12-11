@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "baseUrl": "..",
+    "paths": {
+      "@/ui": ["ui/src"],
+      "@/ui/*": ["ui/src/*"],
+      "@/web": ["web/src"],
+      "@/web/*": ["web/src/*"],
+      "@/content-frontend": ["content-frontend/src"],
+      "@/content-frontend/*": ["content-frontend/src/*"],
+      "@/wagtail-adapter": ["wagtail-adapter/src"],
+      "@/wagtail-adapter/*": ["wagtail-adapter/src/*"]
+    }
+  }
+}

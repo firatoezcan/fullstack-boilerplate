@@ -1,0 +1,67 @@
+{
+  "name": "@stack/sofortexperte",
+  "version": "0.0.1",
+  "description": "Weil wir selbst sowas benutzen würden",
+  "private": true,
+  "scripts": {
+    "hasura": "yarn workspace @stack/hasura",
+    "ui": "yarn workspace @stack/ui",
+    "ui:test:ci": "yarn ui test:ci",
+    "ui:lint": "yarn ui lint",
+    "ui:tslint": "yarn ui tslint",
+    "web": "yarn workspace @stack/web",
+    "web:test:ci": "yarn web test:ci",
+    "web:lint": "yarn web lint",
+    "web:tslint": "yarn web tslint",
+    "test": "concurrently 'yarn:*:test:ci'",
+    "lint": "concurrently 'yarn:*:lint'",
+    "tslint": "concurrently 'yarn:*:tslint'",
+    "prettier": "prettier --write .",
+    "pubcp": "rm -rf web/public ui/public && cp -r static web/public && cp -r static ui/public",
+    "postinstall": "yarn pubcp"
+  },
+  "keywords": [],
+  "author": "Firat",
+  "license": "UNLICENSED",
+  "workspaces": [
+    "ui",
+    "web",
+    "hasura"
+  ],
+  "dependencies": {
+    "date-fns": "^2.27.0",
+    "dotenv": "^10.0.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "typescript": "^4.4.4"
+  },
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.4.1",
+    "@types/node": "^16.11.6",
+    "@types/react": "^17.0.33",
+    "@typescript-eslint/eslint-plugin": "^5.2.0",
+    "@typescript-eslint/parser": "^5.2.0",
+    "concurrently": "^6.3.0",
+    "eslint": "^7",
+    "eslint-config-airbnb-typescript": "^14.0.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-import-resolver-webpack": "^0.13.2",
+    "eslint-plugin-babel": "^5.3.1",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.26.1",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
+    "eslint-plugin-testing-library": "4.11.0",
+    "postcss": "^8.3.11",
+    "postcss-preset-env": "^6.7.0",
+    "tailwindcss": "^2.2.19"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "^@/ui(.*)$": "<rootDir>/ui/src$1",
+      "^@/web(.*)$": "<rootDir>/web/src$1"
+    }
+  }
+}

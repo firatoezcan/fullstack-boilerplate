@@ -1,0 +1,40 @@
+overwrite: true
+schema:
+  - "http://localhost:8080/v1/graphql":
+      headers:
+        X-Hasura-Admin-Secret: ${HASURA_ADMIN_SECRET}
+generates:
+  src/generated/hasuraTypes.generated.ts:
+    documents:
+      - "src/**/*.graphql"
+      - "pages/api/**/*.graphql"
+    plugins:
+      - "typescript"
+      - typescript-operations
+      - "typed-document-node"
+  src/:
+    documents:
+      - "src/**/*.graphql"
+    preset: near-operation-file
+    presetConfig:
+      extension: .generated.tsx
+      baseTypesPath: ~@/web/generated/hasuraTypes.generated
+    config:
+      importOperationTypesFrom: Types
+      documentMode: external
+      importDocumentNodeExternallyFrom: "@/web/generated/hasuraTypes.generated"
+      skipTypename: true
+    plugins:
+      - typescript-urql
+  pages/api/_utils/graphqlSdk.generated.ts:
+    documents:
+      - "pages/api/**/*.graphql"
+    config:
+      typesPrefix: Types.
+      documentMode: external
+      importDocumentNodeExternallyFrom: "@/web/generated/hasuraTypes.generated"
+      skipTypename: true
+    plugins:
+      - typescript-graphql-request
+      - add:
+          content: import * as Types from '@/web/generated/hasuraTypes.generated';

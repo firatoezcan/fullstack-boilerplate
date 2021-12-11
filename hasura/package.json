@@ -1,0 +1,23 @@
+{
+  "name": "@stack/hasura",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "yarn upd && yarn console",
+    "setup": "yarn wipe && yarn upd && sleep 10 && yarn seed:apply && yarn down",
+    "upd": "docker-compose --env-file ../.env up -d",
+    "stop": "docker-compose --env-file ../.env stop",
+    "restart": "docker-compose --env-file ../.env restart",
+    "down": "docker-compose --env-file ../.env down",
+    "console": "sh start-console.sh",
+    "hasura": "sh hasura.sh",
+    "seed": "sh hasura.sh seed",
+    "seed:apply": "yarn hasura seeds apply || true",
+    "wipe": "yarn down && yarn delete-volume",
+    "delete-volume": "docker volume rm hasura_db_data || true"
+  },
+  "dependencies": {
+    "hasura-cli": "^2.0.9"
+  },
+  "devDependencies": {}
+}
