@@ -90,7 +90,6 @@ export const providerSignIn = (provider: Provider) => {
     if (/localhost:\d+/.test(cookieOptions.domain as string)) {
       delete cookieOptions.domain;
     }
-    console.log(codeChallenge);
     cookies.set(`code-challenge`, verifier, cookieOptions);
 
     // Somehow res.redirect seems to not work. Probably because its intended for 307 redirects
@@ -109,7 +108,6 @@ export const providerCallback = (provider: Provider) => {
     }
     const client = await createProviderClient(provider);
     const params = client.callbackParams(req);
-    console.log(params);
     // Not binding breaks this. inside of the callbacks. This is why we dont do this kids. Got the pun?
     const callback = provider.idToken ? client.callback.bind(client) : client.oauthCallback.bind(client);
     const tokenSet = await callback(provider.redirectUri, params, { code_verifier: codeChallenge });
