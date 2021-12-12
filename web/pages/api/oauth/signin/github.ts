@@ -23,12 +23,25 @@ type Provider = {
     }
 );
 
+const getMetadataFromEnv = (providerName: string): ClientMetadata => {
+  const idKey = `${providerName.toUpperCase()}_CLIENT_ID`;
+  const secretKey = `${providerName.toUpperCase()}_CLIENT_SECRET`;
+  const id = process.env[idKey];
+  const secret = process.env[secretKey];
+  if (!id || !secret) {
+    throw new Error(`You need to configure "${idKey}" and "${secretKey}" in your environment variables`);
+  }
+  return {
+    client_id: id,
+    client_secret: secret,
+  };
+};
+
 export const GithubProvider: Provider = {
   scope: "read:user+user:email",
   redirectUri: "http://localhost:3000/api/oauth/signin/github/callback",
   metadata: {
-    client_id: "7349ed2c28b7117b1cca",
-    client_secret: "8fd7cccbc8105b4bf0b3ca591507cb58b977ee7d",
+    ...getMetadataFromEnv("Github"),
   },
   issuerMetadata: {
     issuer: "Github",
