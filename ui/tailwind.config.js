@@ -7,7 +7,7 @@ module.exports = {
     preflight: true,
   },
   mode: "jit",
-  purge: ["../ui/src/components/**/*.tsx", "../app/src/components/**/*.tsx"],
+  purge: ["../ui/src/components/**/*.tsx", "../web/src/components/**/*.tsx", "../web/pages/**/*.tsx"],
   darkMode: false, // or 'media' or 'class'
   theme: {},
   variants: {
