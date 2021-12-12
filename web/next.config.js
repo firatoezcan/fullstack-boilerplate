@@ -21,7 +21,7 @@ const nextConfig = {
       loader: "ts-loader",
       options: {
         getCustomTransformers: (program) => {
-          console.log("Hallo");
+          console.log("typescript-is is configured, if you don't see this message in the future you should delete the .next folder");
           return {
             before: [typescriptIsTransformer(program)],
           };
