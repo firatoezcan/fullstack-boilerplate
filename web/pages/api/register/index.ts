@@ -2,8 +2,8 @@ import { createIs } from "typescript-is";
 
 import { RegisterMutationVariables } from "@/web/generated/hasuraTypes.generated";
 
-import { createAdminClient, rethrowHasuraError } from "../_utils";
-import { middleware } from "../_utils/middleware";
+import { createAdminClient, rethrowHasuraError } from "../../../src/_utils";
+import { middleware } from "../../../src/_utils/middleware";
 
 export type Params = {
   action: {

@@ -2,8 +2,8 @@ import { createIs } from "typescript-is";
 
 import { LoginQueryVariables } from "@/web/generated/hasuraTypes.generated";
 
-import { createAdminClient } from "../_utils";
-import { middleware } from "../_utils/middleware";
+import { createAdminClient } from "../../../src/_utils";
+import { middleware } from "../../../src/_utils/middleware";
 import { createToken } from "./createToken";
 
 export type Params = {

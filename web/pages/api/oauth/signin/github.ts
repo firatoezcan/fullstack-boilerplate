@@ -3,7 +3,7 @@ import { ClientMetadata, generators, Issuer, IssuerMetadata } from "openid-clien
 import { createIs } from "typescript-is";
 import UrlParse from "url-parse";
 
-import { middleware } from "../../_utils/middleware";
+import { middleware } from "../../../../src/_utils/middleware";
 
 export type Params = {};
 
