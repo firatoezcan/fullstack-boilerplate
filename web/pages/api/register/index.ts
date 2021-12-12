@@ -1,17 +1,22 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import { is } from "typescript-is";
+import { createIs } from "typescript-is";
 
-import { getErrorMessage } from "../_utils";
-import { handler, Params } from "./handler";
+import { RegisterMutationVariables } from "@/web/generated/hasuraTypes.generated";
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method !== "POST") return res.status(405).end();
-  if (!is<Params>(req.body)) return res.status(400).send("Insufficient parameters passed");
-  try {
-    const result = await handler(req.body);
-    return res.send(result);
-  } catch (error: any) {
-    const message = getErrorMessage(error);
-    return res.status(400).send({ message });
-  }
+import { createAdminClient, rethrowHasuraError } from "../_utils";
+import { middleware } from "../_utils/middleware";
+
+export type Params = {
+  action: {
+    name: "register";
+  };
+  input: RegisterMutationVariables;
 };
+
+const handler = async (params: Params) => {
+  const { input } = params;
+  const client = createAdminClient();
+  const data = await client.Register(input).catch(rethrowHasuraError(["Register", input.email]));
+  return data.insert_user_one;
+};
+
+export default middleware(createIs<Params>(), handler);
