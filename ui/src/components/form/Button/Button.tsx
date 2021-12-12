@@ -1,5 +1,5 @@
-import React, { FC } from "react";
 import clsx from "clsx";
+import React, { FC } from "react";
 
 const baseButtonClasses =
   "inline-flex items-center font-medium rounded-md border focus:outline-none focus:ring-2 focus:ring-offset-2";
