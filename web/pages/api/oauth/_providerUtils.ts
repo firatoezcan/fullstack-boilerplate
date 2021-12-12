@@ -103,8 +103,16 @@ export const providerCallback = (provider: Provider) => {
     const cookies = new Cookies(req, res);
 
     const codeChallenge = cookies.get("code-challenge");
-    if (!codeChallenge) {
-      return res.status(400).send("Your session timed out, try logging in again");
+    if (!codeChallenge || Math.random() > 0.5) {
+      res.setHeader("Content-Type", "text/html");
+      return res
+        .status(400)
+        .send(
+          `<form method="POST" action="${provider.redirectUri.replace(
+            "callback",
+            ""
+          )}"><button style="font-size:1.2rem">Your session timed out, try logging in again here</button></form>`
+        );
     }
     const client = await createProviderClient(provider);
     const params = client.callbackParams(req);
