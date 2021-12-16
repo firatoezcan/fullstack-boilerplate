@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "yarn upd && yarn console",
+    "dev": "yarn upd && sleep 3 && yarn console",
     "setup": "yarn wipe && yarn upd && sleep 10 && yarn seed:apply && yarn down",
     "upd": "docker-compose --env-file ../.env up -d",
     "stop": "docker-compose --env-file ../.env stop",
