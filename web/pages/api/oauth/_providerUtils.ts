@@ -70,12 +70,10 @@ export const providerSignIn = (provider: Provider) => {
 
     const client = await createProviderClient(provider);
     const verifier = generators.codeVerifier();
-    const codeChallenge = generators.codeChallenge(verifier);
 
     const redirectUrl = client.authorizationUrl({
-      scope: `openid profile ${(Array.isArray(provider.scope) ? provider.scope : [provider.scope]).join(" ")}`,
-      code_challenge: codeChallenge,
-      code_challenge_method: "S256",
+      scope: `openid profile email ${(Array.isArray(provider.scope) ? provider.scope : [provider.scope]).join(" ")}`,
+      state: verifier
     });
 
     const callbackUrl = new UrlParse(provider.redirectUri);
@@ -90,7 +88,7 @@ export const providerSignIn = (provider: Provider) => {
     if (/localhost:\d+/.test(cookieOptions.domain as string)) {
       delete cookieOptions.domain;
     }
-    cookies.set(`code-challenge`, verifier, cookieOptions);
+    cookies.set(`oauth-verifier`, verifier, cookieOptions);
 
     // Somehow res.redirect seems to not work. Probably because its intended for 307 redirects
     res.status(302).setHeader("Location", redirectUrl);
@@ -102,8 +100,8 @@ export const providerCallback = (provider: Provider) => {
   return async (req: NextApiRequest, res: NextApiResponse) => {
     const cookies = new Cookies(req, res);
 
-    const codeChallenge = cookies.get("code-challenge");
-    if (!codeChallenge || Math.random() > 0.5) {
+    const verifier = cookies.get("oauth-verifier");
+    if (!verifier || Math.random() > 0.5) {
       res.setHeader("Content-Type", "text/html");
       return res
         .status(400)
@@ -118,9 +116,9 @@ export const providerCallback = (provider: Provider) => {
     const params = client.callbackParams(req);
     // Not binding breaks this. inside of the callbacks. This is why we dont do this kids. Got the pun?
     const callback = provider.idToken ? client.callback.bind(client) : client.oauthCallback.bind(client);
-    const tokenSet = await callback(provider.redirectUri, params, { code_verifier: codeChallenge });
+    const tokenSet = await callback(provider.redirectUri, params, { state: verifier });
 
-    cookies.set(`code-challenge`, "", { maxAge: 0 });
+    cookies.set(`oauth-verifier`, "", { maxAge: 0 });
     console.log(tokenSet);
     res.redirect(`http://localhost:3000#token=${tokenSet.access_token}&provider=${provider.name}`);
   };
